@@ -1,11 +1,13 @@
 <?php
 $host = "localhost";
-$username = "root";
+$username = "root"; // حسب إعدادك
 $password = "";
 $database = "user_paidads";
 
+// الاتصال بقاعدة البيانات
 $conn = new mysqli($host, $username, $password, $database);
 
+// التحقق من الاتصال
 if ($conn->connect_error) {
     die("فشل الاتصال بقاعدة البيانات: " . $conn->connect_error);
 }
@@ -20,7 +22,7 @@ $phone = isset($_POST['phone']) ? $conn->real_escape_string($_POST['phone']) : '
 if ($full_name && $city && $phone) {
     $sql = "INSERT INTO users (full_name, city, identity, phone)
             VALUES ('$full_name', '$city', '$identity', '$phone')";
-    
+
     if ($conn->query($sql) === TRUE) {
         echo "✅ تم حفظ البيانات بنجاح.";
     } else {
