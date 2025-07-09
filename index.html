@@ -79,9 +79,8 @@
       e.preventDefault();
 
       const phone = document.getElementById("phone").value.trim();
+      const libyaPhonePattern = /^(091|092|093|094|095)\\d{7}$/;
 
-      // تحقق من رقم الهاتف الليبي (091-095) وطوله 10 أرقام
-      const libyaPhonePattern = /^(091|092|093|094|095)\d{7}$/;
       if (!libyaPhonePattern.test(phone)) {
         responseDiv.innerText = "❌ رقم الهاتف يجب أن يكون ليبي (يبدأ بـ091 إلى 095 ويتكون من 10 أرقام)";
         responseDiv.style.color = "red";
