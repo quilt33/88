@@ -1,7 +1,7 @@
 <?php
 $host = "localhost";
-$username = "root"; // حسب إعدادك
-$password = "";
+$username = "root"; // غيّره إذا كنت تستخدم اسم مستخدم مختلف
+$password = "";     // غيّره إذا كان هناك كلمة مرور
 $database = "user_paidads";
 
 // الاتصال بقاعدة البيانات
