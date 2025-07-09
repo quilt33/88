@@ -1,4 +1,3 @@
-
 <?php
 $host = "localhost";
 $username = "root";
@@ -11,15 +10,17 @@ if ($conn->connect_error) {
     die("فشل الاتصال بقاعدة البيانات: " . $conn->connect_error);
 }
 
+// استقبال البيانات
 $full_name = isset($_POST['full_name']) ? $conn->real_escape_string($_POST['full_name']) : '';
 $city = isset($_POST['city']) ? $conn->real_escape_string($_POST['city']) : '';
 $identity = isset($_POST['identity']) ? $conn->real_escape_string($_POST['identity']) : '';
 $phone = isset($_POST['phone']) ? $conn->real_escape_string($_POST['phone']) : '';
 
+// التحقق من الحقول المطلوبة
 if ($full_name && $city && $phone) {
     $sql = "INSERT INTO users (full_name, city, identity, phone)
             VALUES ('$full_name', '$city', '$identity', '$phone')";
-
+    
     if ($conn->query($sql) === TRUE) {
         echo "✅ تم حفظ البيانات بنجاح.";
     } else {
