@@ -1,110 +1,25 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
-  <meta charset="UTF-8">
-  <title>نموذج التسجيل</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f0f0f0;
-      direction: rtl;
-      text-align: right;
-      padding: 20px;
-    }
-    form {
-      background-color: #fff;
-      padding: 20px;
-      max-width: 400px;
-      margin: auto;
-      border-radius: 10px;
-      box-shadow: 0 0 10px #ccc;
-    }
-    label {
-      display: block;
-      margin-top: 15px;
-      margin-bottom: 5px;
-    }
-    input[type="text"], input[type="tel"] {
-      width: 100%;
-      padding: 10px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-    button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #0056b3;
-    }
-    #response {
-      margin-top: 15px;
-      text-align: center;
-      font-weight: bold;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>نموذج تسجيل المستخدم</title>
 </head>
 <body>
+    <h2>نموذج تسجيل المستخدم</h2>
+    <form action="insert.php" method="post">
+        <label>الاسم الكامل:</label><br>
+        <input type="text" name="full_name" required><br><br>
 
-  <h2>نموذج تسجيل البيانات</h2>
+        <label>المدينة:</label><br>
+        <input type="text" name="city" required><br><br>
 
-  <form id="registerForm">
-    <label for="full_name">الاسم الكامل:</label>
-    <input type="text" id="full_name" name="full_name" required>
+        <label>رقم الهوية:</label><br>
+        <input type="text" name="identity" required><br><br>
 
-    <label for="city">المدينة:</label>
-    <input type="text" id="city" name="city" required>
+        <label>رقم الهاتف:</label><br>
+        <input type="text" name="phone" required><br><br>
 
-    <label for="identity">حامل تعريف:</label>
-    <input type="text" id="identity" name="identity">
-
-    <label for="phone">رقم الهاتف:</label>
-    <input type="tel" id="phone" name="phone" required>
-
-    <button type="submit">إرسال</button>
-  </form>
-
-  <div id="response"></div>
-
-  <script>
-    const form = document.getElementById("registerForm");
-    const responseDiv = document.getElementById("response");
-
-    form.addEventListener("submit", function(e) {
-      e.preventDefault();
-
-      const phone = document.getElementById("phone").value.trim();
-      const libyaPhonePattern = /^(091|092|093|094|095)\\d{7}$/;
-
-      if (!libyaPhonePattern.test(phone)) {
-        responseDiv.innerText = "❌ رقم الهاتف يجب أن يكون ليبي (يبدأ بـ091 إلى 095 ويتكون من 10 أرقام)";
-        responseDiv.style.color = "red";
-        return;
-      }
-
-      const formData = new FormData(form);
-
-      fetch("save.php", {
-        method: "POST",
-        body: formData
-      })
-      .then(response => response.text())
-      .then(data => {
-        responseDiv.innerText = data;
-        responseDiv.style.color = "green";
-        form.reset();
-      })
-      .catch(error => {
-        responseDiv.innerText = "حدث خطأ أثناء الإرسال: " + error;
-        responseDiv.style.color = "red";
-      });
-    });
-  </script>
-
+        <input type="submit" value="إرسال">
+    </form>
 </body>
 </html>
