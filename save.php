@@ -1,33 +1,37 @@
 <?php
+// بيانات الاتصال بقاعدة البيانات
 $host = "localhost";
-$user = "root";
-$pass = "";
-$dbname = "user_paidads";
+$username = "root";     // غيّرها إن كنت تستخدم اسم مستخدم مختلف
+$password = "";         // غيّرها إن كانت هناك كلمة مرور
+$database = "user_paidads";
 
-$conn = new mysqli($host, $user, $pass, $dbname);
+// الاتصال بقاعدة البيانات
+$conn = new mysqli($host, $username, $password, $database);
+
+// التحقق من الاتصال
 if ($conn->connect_error) {
-    die("فشل الاتصال: " . $conn->connect_error);
+    die("فشل الاتصال بقاعدة البيانات: " . $conn->connect_error);
 }
 
-$full_name = $_POST['full_name'] ?? '';
-$city = $_POST['city'] ?? '';
-$identity = $_POST['identity'] ?? '';
-$phone = $_POST['phone'] ?? '';
+// استقبال البيانات من POST
+$full_name = isset($_POST['full_name']) ? $conn->real_escape_string($_POST['full_name']) : '';
+$city = isset($_POST['city']) ? $conn->real_escape_string($_POST['city']) : '';
+$identity = isset($_POST['identity']) ? $conn->real_escape_string($_POST['identity']) : '';
+$phone = isset($_POST['phone']) ? $conn->real_escape_string($_POST['phone']) : '';
 
-if (empty($full_name) || empty($city) || empty($phone)) {
-    die("❌ بعض الحقول المطلوبة مفقودة.");
-}
+// التحقق من أن الحقول الأساسية موجودة
+if ($full_name && $city && $phone) {
+    $sql = "INSERT INTO users (full_name, city, identity, phone)
+            VALUES ('$full_name', '$city', '$identity', '$phone')";
 
-$sql = "INSERT INTO users (الاسم_بالكامل, المدينة, حامل_تعريف, رقم_الهاتف) VALUES (?, ?, ?, ?)";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("ssss", $full_name, $city, $identity, $phone);
-
-if ($stmt->execute()) {
-    echo "✅ تم حفظ البيانات بنجاح.";
+    if ($conn->query($sql) === TRUE) {
+        echo "✅ تم حفظ البيانات بنجاح.";
+    } else {
+        echo "❌ خطأ في حفظ البيانات: " . $conn->error;
+    }
 } else {
-    echo "❌ خطأ في التنفيذ: " . $stmt->error;
+    echo "❌ يرجى ملء جميع الحقول المطلوبة.";
 }
 
-$stmt->close();
 $conn->close();
 ?>
